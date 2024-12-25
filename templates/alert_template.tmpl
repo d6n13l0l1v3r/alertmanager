@@ -1,27 +1,30 @@
 {{ define "alert_list" }}
 {{ range . }}
   {{- if eq .Labels.severity "critical" }}
-    🚨 CRITICAL 🚨
+    🔴 CRITICAL ALERT
   {{- end }}
   {{- if eq .Labels.severity "warning" }}
-    ⚠️ WARNING ⚠️
+    ⚠️ WARNING ALERT
+  {{- end }}
+  {{- if eq .Labels.severity "info" }}
+    ℹ️ INFO ALERT
   {{- end }}
   {{- if .Annotations.summary }}
-    {{ .Annotations.summary }}
+    *Summary*: {{ .Annotations.summary }}
   {{- end }}
   {{- if .Annotations.description }}
-    {{ .Annotations.description }}
+    *Description*: {{ .Annotations.description }}
   {{- end }}
 {{ end }}
 {{ end }}
 
 {{ define "alert.message" }}
   {{ if gt (len .Alerts.Firing) 0 }}
+    🔥 **Active Alerts**
     {{ template "alert_list" .Alerts.Firing }}
   {{ end }}
   {{ if gt (len .Alerts.Resolved) 0 }}
-    ✅ Alerts Resolved ✅
+    ✅ **Resolved Alerts**
     {{ template "alert_list" .Alerts.Resolved }}
   {{ end }}
 {{ end }}
-
