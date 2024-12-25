@@ -2,10 +2,10 @@
 FROM prom/alertmanager:latest
 
 # Set the working directory for Alertmanager templates
-RUN mkdir -p /alertmanager/templates
+RUN mkdir -p /etc/alertmanager/templates
 
 # Copy the custom alert template into the container
-COPY templates/alert_template.tmpl /alertmanager/templates/alert_template.tmpl
+COPY templates/alert_template.tmpl /etc/alertmanager/templates/alert.tmpl
 
 # Copy the Alertmanager configuration file into the container
 #COPY alertmanager.yml /etc/alertmanager/alertmanager.yml
