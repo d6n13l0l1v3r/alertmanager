@@ -14,14 +14,28 @@ receivers:
     msteams_configs:
       - webhook_url: '${MST_TEAMS_WEBHOOK_URL}'
         send_resolved: false
-        text: '{{ template "alert.message" . }}'
     telegram_configs:
       - api_url: 'https://api.telegram.org'
         chat_id: ${TELEGRAM_CHAT_ID}
         bot_token: '${TELEGRAM_BOT_TOKEN}'
         send_resolved: false
-        parse_mode: 'HTML'
-        message: '{{ template "alert.message" . }}'
+        message: '{{ template "telegram.message" . }}'
+        parse_mode: 'Markdown'
+
+  - name: teams
+    msteams_configs:
+      - webhook_url: '${MST_TEAMS_WEBHOOK_URL}'
+        send_resolved: false
+
+  - name: telegram
+    telegram_configs:
+      - api_url: 'https://api.telegram.org'
+        chat_id: ${TELEGRAM_CHAT_ID}
+        bot_token: '${TELEGRAM_BOT_TOKEN}'
+        send_resolved: false
+        message: '{{ template "telegram.summary" . }}'
+        #message: '{{ template "telegram.message" . }}'
+        parse_mode: 'Markdown'
 
 templates:
   - '/etc/alertmanager/templates/alert.tmpl' # path to our telegram.tmpl
