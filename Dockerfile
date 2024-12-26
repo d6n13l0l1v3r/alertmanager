@@ -8,7 +8,6 @@ RUN mkdir -p /usr/local/bin/ /etc/alertmanager/templates
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY templates/alert_template.tmpl /etc/alertmanager/templates/alert.tmpl
 COPY config/alertmanager.yml /etc/alertmanager/alertmanager.yml
-
 # Cambiar permisos
 RUN chmod +x /usr/local/bin/entrypoint.sh
 

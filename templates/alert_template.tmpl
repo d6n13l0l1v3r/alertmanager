@@ -1,7 +1,7 @@
 {{ define "alert_list" }}
 {{ range . }}
   {{- if eq .Labels.severity "critical" }}
-    🔴 CRITICAL ALERT
+    🚨 CRITICAL ALERT
   {{- end }}
   {{- if eq .Labels.severity "warning" }}
     ⚠️ WARNING ALERT

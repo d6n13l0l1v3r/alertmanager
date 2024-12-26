@@ -24,4 +24,4 @@ receivers:
         message: '{{ template "alert.message" . }}'
 
 templates:
-  - '/alertmanager/templates/alert_template.tmpl' # path to our telegram.tmpl
+  - '/etc/alertmanager/templates/alert.tmpl' # path to our telegram.tmpl
