@@ -31,7 +31,7 @@
   {{- end }}
 
   {{- if .Labels.alertname }}
-    For more details [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
+    - **For more details** [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
   {{- else }}
     - _No alertname specified._
   {{- end }}
@@ -73,7 +73,7 @@
   {{- end }}
 
   {{- if .Labels.alertname }}
-    - For more details [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
+    - **For more details** [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
   {{- else }}
     - _No alertname specified._
   {{- end }}
