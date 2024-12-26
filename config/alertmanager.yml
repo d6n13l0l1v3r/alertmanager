@@ -1,0 +1,27 @@
+global:
+  resolve_timeout: 24h  # Time to wait for alert resolution
+
+route:
+  group_by: [cluster, alertname]
+  group_wait: 0s
+  group_interval: 5m
+  repeat_interval: 4h
+  #group_by: ['cluster', 'alertname']
+  receiver: all_receivers
+
+receivers:
+  - name: all_receivers
+    msteams_configs:
+      - webhook_url: '${MST_TEAMS_WEBHOOK_URL}'
+        send_resolved: false
+        text: '{{ template "alert.message" . }}'
+    telegram_configs:
+      - api_url: 'https://api.telegram.org'
+        chat_id: ${TELEGRAM_CHAT_ID}
+        bot_token: '${TELEGRAM_BOT_TOKEN}'
+        send_resolved: false
+        parse_mode: 'HTML'
+        message: '{{ template "alert.message" . }}'
+
+templates:
+  - '/alertmanager/templates/alert_template.tmpl' # path to our telegram.tmpl

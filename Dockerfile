@@ -1,18 +1,15 @@
-# Use the official Alertmanager image as the base image
 FROM prom/alertmanager:latest
 
-# Set the working directory for Alertmanager templates
-RUN mkdir -p /etc/alertmanager/templates
+USER root
+# Crear directorios necesarios
+RUN mkdir -p /usr/local/bin/ /etc/alertmanager/templates
 
-# Copy the custom alert template into the container
+# Copiar archivos
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY templates/alert_template.tmpl /etc/alertmanager/templates/alert.tmpl
+COPY config/alertmanager.yml /etc/alertmanager/alertmanager.yml
 
-# Copy the Alertmanager configuration file into the container
-#COPY alertmanager.yml /etc/alertmanager/alertmanager.yml
+# Cambiar permisos
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Expose the necessary port for Alertmanager (default 9093)
-EXPOSE 9093
-
-# Command to run Alertmanager,
-CMD ["/bin/alertmanager"]
-
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

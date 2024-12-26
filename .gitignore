@@ -1,2 +1,2 @@
-alertmanager.yml
 .gitignore
+*.secret
