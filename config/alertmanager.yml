@@ -14,6 +14,8 @@ receivers:
     msteams_configs:
       - webhook_url: '${MST_TEAMS_WEBHOOK_URL}'
         send_resolved: false
+        text: '{{ template "msteams.text" . }}'
+        title: '{{ template "msteams.title" . }}'
     telegram_configs:
       - api_url: 'https://api.telegram.org'
         chat_id: ${TELEGRAM_CHAT_ID}
@@ -26,6 +28,8 @@ receivers:
     msteams_configs:
       - webhook_url: '${MST_TEAMS_WEBHOOK_URL}'
         send_resolved: false
+        text: '{{ template "msteams.text" . }}'
+        title: '{{ template "msteams.title" . }}'
 
   - name: telegram
     telegram_configs:

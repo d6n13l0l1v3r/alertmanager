@@ -10,30 +10,25 @@
     ℹ️ **INFO ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
   {{- end }}
 
-  {{- if .Labels.service }}
-    - **Service:** {{ .Labels.service }}
-  {{- end }}
-
-  {{- if .Labels.host }}
-    - **Host:** {{ .Labels.host }}
-  {{- end }}
+- **Service:** {{ .Labels.service }}
+- **Host:** {{ .Labels.host }}
 
   {{- if .Annotations.summary }}
-    - **Summary:** {{ .Annotations.summary }}
+- **Summary:** {{ .Annotations.summary }}
   {{- else }}
-    - _No additional information provided._
+- _No additional information provided._
   {{- end }}
 
   {{- if .Annotations.description }}
-    - **Description** {{ .Annotations.description }}
+- **Description** {{ .Annotations.description }}
   {{- else }}
-    - _No additional information provided._
+- _No additional information provided._
   {{- end }}
 
   {{- if .Labels.alertname }}
-    - **For more details** [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
+**For more details** [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
   {{- else }}
-    - _No alertname specified._
+_No alertname specified._
   {{- end }}
 {{ end }}
 {{ end }}
@@ -51,31 +46,28 @@
 {{ define "telegram_list_summary" }}
 {{ range . }}
   {{- if eq .Labels.severity "critical" }}
-    🚨 **CRITICAL ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+🚨 **CRITICAL ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
   {{- else if eq .Labels.severity "warning" }}
-    ⚠️ **WARNING ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+⚠️ **WARNING ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
   {{- else if eq .Labels.severity "info" }}
-    ℹ️ **INFO ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+ℹ️ **INFO ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+  {{- else }}
+**ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
   {{- end }}
 
-  {{- if .Labels.service }}
-    - **Service:** {{ .Labels.service }}
-  {{- end }}
-
-  {{- if .Labels.host }}
-    - **Node/Host:** {{ .Labels.host }}
-  {{- end }}
+- **Service:** {{ .Labels.service }}
+- **Node/Host:** {{ .Labels.host }}
 
   {{- if .Annotations.summary }}
-    - **Summary:** {{ .Annotations.summary }}
+- **Summary:** {{ .Annotations.summary }}
   {{- else }}
-    - _No additional information provided._
+- _No additional information provided._
   {{- end }}
 
   {{- if .Labels.alertname }}
-    - **For more details** [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
+- **For more details** [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
   {{- else }}
-    - _No alertname specified._
+- _No alertname specified._
   {{- end }}
 
 {{ end }}
@@ -86,7 +78,77 @@
     {{ template "telegram_list_summary" .Alerts.Firing }}
   {{ end }}
   {{ if gt (len .Alerts.Resolved) 0 }}
-    ✅ **Resolved Alerts**:
+✅ **Resolved Alerts**:
     {{ template "telegram_list_summary" .Alerts.Resolved }}
+  {{ end }}
+{{ end }}
+
+{{ define "__subject" }}
+  {{ if gt (len .Alerts.Firing) 0 }}
+    {{- range .Alerts.Firing }}
+      {{- if .Labels.severity }}
+        {{- if eq .Labels.severity "critical" }}
+          🚨 CRITICAL ALERT - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+        {{- else if eq .Labels.severity "warning" }}
+          ⚠️ WARNING ALERT - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+        {{- else if eq .Labels.severity "info" }}
+          ℹ️ INFO ALERT - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+        {{- else }}
+          ALERT - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{ end }}
+
+{{ define "__summary" }}
+  {{ if .Alerts.Firing }}
+    {{ range .Alerts.Firing }}
+- service = {{ .Labels.service }}
+- host = {{ .Labels.host }}
+- Summary = {{ .Annotations.summary }}
+
+  {{- if .Labels.alertname }}
+For more details [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
+  {{- else }}
+_No alertname specified._
+  {{- end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "__text_alert_list_markdown" }}
+  {{ if .Alerts.Firing }}
+    {{ range .Alerts.Firing }}
+- service = {{ .Labels.service }}
+- host = {{ .Labels.host }}
+- Summary = {{ .Annotations.summary }}
+
+- Description = {{ .Annotations.description }}
+
+  {{- if .Labels.alertname }}
+For more details [click here](http://127.0.0.1:9093/#/alerts?filter=alertname%3D{{ .Labels.alertname | urlquery }})
+  {{- else }}
+_No alertname specified._
+  {{- end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "msteams.title" }}
+  {{ template "__subject" . }}
+{{ end }}
+
+{{ define "msteams.summary" }}
+  {{ template "__summary" . }}
+{{ end }}
+
+{{ define "msteams.text" }}
+  {{ if gt (len .Alerts.Firing) 0 }}
+    {{ template "__text_alert_list_markdown" . }}
+  {{ end }}
+  {{ if gt (len .Alerts.Resolved) 0 }}
+    ✅ Alerts Resolved:
+    {{ template "__text_alert_list_markdown" . }}
   {{ end }}
 {{ end }}
