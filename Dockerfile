@@ -2,12 +2,6 @@ FROM prom/alertmanager:latest
 
 USER root
 
-# Install tzdata to manage time zone
-RUN apk add --no-cache tzdata
-
-# Set the time zone to Europe/Madrid (or any other time zone)
-ENV TZ=Europe/UTC
-
 # Crear directorios necesarios
 RUN mkdir -p /usr/local/bin/ /etc/alertmanager/templates
 
