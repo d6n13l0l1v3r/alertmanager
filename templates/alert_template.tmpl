@@ -12,6 +12,7 @@
 
 - **Service:** {{ .Labels.service }}
 - **Host:** {{ .Labels.host }}
+- **Match:** {{ .Labels.match }}
 
   {{- if .Annotations.summary }}
 - **Summary:** {{ .Annotations.summary }}
@@ -57,7 +58,7 @@ _No alertname specified._
 
 - **Service:** {{ .Labels.service }}
 - **Node/Host:** {{ .Labels.host }}
-- **Matches:** {{ .Labels.num_matches }}
+- **Match:** {{ .Labels.match }}
 
   {{- if .Annotations.summary }}
 - **Summary:** {{ .Annotations.summary }}
@@ -105,9 +106,9 @@ _No alertname specified._
 {{ define "__summary" }}
   {{ if .Alerts.Firing }}
     {{ range .Alerts.Firing }}
-- service = {{ .Labels.service }}
-- host = {{ .Labels.host }}
-- Matches:** {{ .Labels.num_matches }}
+- Service = {{ .Labels.service }}
+- Host = {{ .Labels.host }}
+- Match = {{ .Labels.match }}
 - Summary = {{ .Annotations.summary }}
 
   {{- if .Labels.alertname }}
@@ -122,9 +123,9 @@ _No alertname specified._
 {{ define "__text_alert_list_markdown" }}
   {{ if .Alerts.Firing }}
     {{ range .Alerts.Firing }}
-- service = {{ .Labels.service }}
-- host = {{ .Labels.host }}
-- Matches:** {{ .Labels.num_matches }}
+- Service = {{ .Labels.service }}
+- Host = {{ .Labels.host }}
+- Match = {{ .Labels.match }}
 - Summary = {{ .Annotations.summary }}
 
 - Description = {{ .Annotations.description }}
