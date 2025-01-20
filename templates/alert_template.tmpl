@@ -8,6 +8,8 @@
   {{- end }}
   {{- if eq .Labels.severity "info" }}
     ℹ️ **INFO ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
+  {{- else }}
+    **ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }}
   {{- end }}
 
 - **Service:** {{ .Labels.service }}
