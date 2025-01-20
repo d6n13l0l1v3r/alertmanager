@@ -1,15 +1,13 @@
 {{ define "telegram_list" }}
 {{ range . }}
   {{- if eq .Labels.severity "critical" }}
-    🚨 **CRITICAL ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
-  {{- end }}
-  {{- if eq .Labels.severity "warning" }}
-    ⚠️ **WARNING ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
-  {{- end }}
-  {{- if eq .Labels.severity "info" }}
-    ℹ️ **INFO ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
+🚨 **CRITICAL ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
+  {{- else if eq .Labels.severity "warning" }}
+⚠️ **WARNING ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
+  {{- else if eq .Labels.severity "info" }}
+ℹ️ **INFO ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
   {{- else }}
-    **ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
+**ALERT** - {{ .StartsAt.Format "Mon, 02 Jan 2006 15:04:05" }} UTC
   {{- end }}
 
 - **Service:** {{ .Labels.service }}
