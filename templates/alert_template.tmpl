@@ -57,7 +57,7 @@ _No alertname specified._
 
 - **Service:** {{ .Labels.service }}
 - **Node/Host:** {{ .Labels.host }}
-- **Num. Matches:** {{ .Labels.num_matches }}
+- **Matches:** {{ .Labels.num_matches }}
 
   {{- if .Annotations.summary }}
 - **Summary:** {{ .Annotations.summary }}
@@ -107,7 +107,7 @@ _No alertname specified._
     {{ range .Alerts.Firing }}
 - service = {{ .Labels.service }}
 - host = {{ .Labels.host }}
-- Num. Matches:** {{ .Labels.num_matches }}
+- Matches:** {{ .Labels.num_matches }}
 - Summary = {{ .Annotations.summary }}
 
   {{- if .Labels.alertname }}
@@ -124,7 +124,7 @@ _No alertname specified._
     {{ range .Alerts.Firing }}
 - service = {{ .Labels.service }}
 - host = {{ .Labels.host }}
-- Num. Matches:** {{ .Labels.num_matches }}
+- Matches:** {{ .Labels.num_matches }}
 - Summary = {{ .Annotations.summary }}
 
 - Description = {{ .Annotations.description }}
