@@ -12,7 +12,7 @@
 
 - **Service:** {{ .Labels.service }}
 - **Host:** {{ .Labels.host }}
-- **Match:** {{ .Labels.match }}
+- **Count:** {{ .Labels.match }}
 
   {{- if .Annotations.summary }}
 - **Summary:** {{ .Annotations.summary }}
@@ -58,7 +58,7 @@ _No alertname specified._
 
 - **Service:** {{ .Labels.service }}
 - **Node/Host:** {{ .Labels.host }}
-- **Match:** {{ .Labels.match }}
+- **Count:** {{ .Labels.match }}
 
   {{- if .Annotations.summary }}
 - **Summary:** {{ .Annotations.summary }}
@@ -108,7 +108,7 @@ _No alertname specified._
     {{ range .Alerts.Firing }}
 - Service = {{ .Labels.service }}
 - Host = {{ .Labels.host }}
-- Match = {{ .Labels.match }}
+- Count = {{ .Labels.match }}
 - Summary = {{ .Annotations.summary }}
 
   {{- if .Labels.alertname }}
@@ -125,7 +125,7 @@ _No alertname specified._
     {{ range .Alerts.Firing }}
 - Service = {{ .Labels.service }}
 - Host = {{ .Labels.host }}
-- Match = {{ .Labels.match }}
+- Count = {{ .Labels.match }}
 - Summary = {{ .Annotations.summary }}
 
 - Description = {{ .Annotations.description }}
